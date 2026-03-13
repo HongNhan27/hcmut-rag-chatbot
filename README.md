@@ -114,6 +114,21 @@ pip install -r requirement.txt
 ```
 
 ---
+## 🔑 Thiết lập API Key
+
+Dự án này sử dụng **Google Generative AI (Gemma/Gemini)** nên cần API key để chạy.
+
+Vì lý do bảo mật, **API key không được đưa trực tiếp vào repository**.
+
+### 1. Tạo file `.env`
+
+### 2. Thêm API key vào `.env`
+
+Mở file `.env` và thêm API key của bạn:
+
+```
+GEMINI_API_KEY=your_api_key_here
+```
 
 # 🗄️ Tạo Vector Database
 
