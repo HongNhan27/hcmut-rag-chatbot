@@ -135,7 +135,7 @@ GEMINI_API_KEY=your_api_key_here
 Trước khi chạy chatbot cần tạo embeddings cho dữ liệu:
 
 ```bash
-python VectorDatabase/vectorDB.py
+python -m VectorDatabase.vectorDB
 ```
 
 File sau sẽ được tạo:
