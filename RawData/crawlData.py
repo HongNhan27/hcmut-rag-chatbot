@@ -1,35 +1,35 @@
-# crawler.py
-import requests
-from bs4 import BeautifulSoup
-import re
+import os
+import asyncio
+from crawl4ai import AsyncWebCrawler
 
-def clean_text(text: str) -> str:
-    """Làm sạch text: bỏ khoảng trắng thừa, ký tự lạ."""
-    text = re.sub(r'\n{3,}', '\n\n', text)   # Gộp nhiều dòng trống
-    text = re.sub(r'[ \t]+', ' ', text)        # Gộp khoảng trắng
-    return text.strip()
+# Danh sách URL HCMUT (có thể thêm nhiều trang)
+URLS = [
+    "https://hcmut.edu.vn/thong-diep-cua-hieu-truong",
+    "https://hcmut.edu.vn/gioi-thieu/ke-hoach-chien-luoc",
+    "https://hcmut.edu.vn/tong-quan"
+    "https://hcmut.edu.vn/gioi-thieu/xep-hang-dai-hoc",
+    "https://hcmut.edu.vn/tuyen-sinh-dh/dai-hoc-chinh-quy",
+    "https://hcmut.edu.vn/co-cau-to-chuc"
 
-def crawl_single_page(url: str) -> str:
-    headers = {"User-Agent": "Mozilla/5.0 (compatible; RAGBot/1.0)"}
-    response = requests.get(url, headers=headers, timeout=10)
-    response.raise_for_status()
+    ""
+]
 
-    soup = BeautifulSoup(response.text, "lxml")
+OUTPUT_FILE = "Data/hcmut_crawl4ai.txt"
 
-    # Loại bỏ các thẻ không cần thiết
-    for tag in soup(["script", "style", "nav", "footer", "header", "ads"]):
-        tag.decompose()
+async def crawl_hcmut():
+    # Tạo thư mục nếu chưa có
+    os.makedirs("Data", exist_ok=True)
 
-    text = soup.get_text(separator="\n")
-    return clean_text(text)
+    async with AsyncWebCrawler() as crawler:
+        results = await crawler.arun_many(urls=URLS)
 
-# Sử dụng
-url = "https://hcmut.edu.vn/tong-quan"
-content = crawl_single_page(url)
+        with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+            for result in results:
+                f.write(f"===== URL: {result.url} =====\n")
+                f.write(result.markdown)  # nội dung sạch
+                f.write("\n\n")
 
-with open("../Data/hcmut_data.txt", "w", encoding="utf-8") as f:
-    f.write(f"SOURCE: {url}\n")
-    f.write("=" * 60 + "\n\n")
-    f.write(content)
+    print(f"✅ Đã lưu dữ liệu vào {OUTPUT_FILE}")
 
-print(f"✅ Đã lưu: output/page.txt ({len(content)} ký tự)")
+if __name__ == "__main__":
+    asyncio.run(crawl_hcmut())

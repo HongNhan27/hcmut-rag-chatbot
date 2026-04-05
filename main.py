@@ -112,7 +112,7 @@ def ask_model(question):
 
 if __name__ == "__main__":
 
-    question = "trường mình có mấy cơ sở"
+    question = "bộ nhận diện thương hiệu của trường"
     model_id = "google/gemma-3-27b-it"
 
     print(ask_model(question))
