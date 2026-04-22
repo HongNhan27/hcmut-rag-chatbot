@@ -4,7 +4,7 @@ from sentence_transformers import SentenceTransformer
 from Chunk.chunkingData import chunkData, loadData
 def create_vector_database():
     
-    model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+    model = SentenceTransformer('intfloat/multilingual-e5-large')
     
     documents = loadData()
     chunks = chunkData(documents)

@@ -33,10 +33,11 @@ def loadData():
     print(documents[0].page_content[:200])
 
     return documents
-def chunkData(documents, chunk_size = 300, chunk_overlap = 100):
+def chunkData(documents, chunk_size = 400, chunk_overlap = 100):
     text_spliter = CharacterTextSplitter(
         chunk_size = chunk_size,
-        chunk_overlap = chunk_overlap
+        chunk_overlap = chunk_overlap,
+        separator = "\n"
     )
     
     chunks = text_spliter.split_documents(documents)

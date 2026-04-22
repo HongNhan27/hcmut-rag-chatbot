@@ -63,7 +63,7 @@ def build_rag_query(question: str, contexts: list, history):
     context_text = "\n".join(contexts)
     history_text = ""
 
-    for msg in history:
+    for msg in history[-4:]:
         if msg["role"] == "user":
             history_text += f"User: {msg['content']}\n"
         else:
